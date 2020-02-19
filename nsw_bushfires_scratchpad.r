@@ -40,7 +40,7 @@ fire_icon <- awesomeIcons(icon = "fire", library = "glyphicon", markerColor = "r
                         popup = "Stays when clicked!",            # single value 
                         label = paste0("Tooltip on hover!",1:3))) # or length of data.
 
-
+cat("Di says that leaflet doesn't give enough ")
 
 
 
@@ -59,15 +59,28 @@ if (F){
 }
 
 cat("After data cleaned a bit; read and first map")
-dat <- read.csv2("./nsw_fires_clean.csv", sep = ",", stringsAsFactors = F)
+dat <- read.csv2("./public_data/nsw_fires_clean.csv", sep = ",", stringsAsFactors = F)
 str(dat)
 cat("no lat long! Yuck! geocoding in ggmap needs api...")
 
-ggmap::geocode(dat$Location[1])
-
-
-  
+### satellite data -----
+dat <- read.csv2("./private_data/H08_20200219_0100_L3WLFbet_FLDK.06001_06001_raw.csv", sep = ",", stringsAsFactors = F)
+str(dat)
 
 
 ### GGMAP -----
 library('ggmap')
+
+nsw <- c(left = 146 - 10, bottom = -36 - 5, right = 146 + 10, top = -36 + 5)
+get_stamenmap(nsw, zoom = 5, maptype = "toner-lite") %>% ggmap() 
+
+maptypes <- c("terrain", "terrain-background", "terrain-labels", 
+              "terrain-lines","toner", "toner-2010", "toner-2011", 
+              "toner-background", "toner-hybrid", "toner-labels", "toner-lines",
+              "toner-lite", "watercolor") #1, 12, 13 are best: "terrain", "toner-lite", "watercolor"
+gg <- get_stamenmap(nsw, zoom = 5, maptype ="terrain") %>% ggmap() 
+class(gg) #good, is ggplot
+
+
+
+
